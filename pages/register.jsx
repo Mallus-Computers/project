@@ -1,12 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
 import FormInput from '../components/Form/FormInput'
 import FormButton from '../components/Form/FormButton'
 import Header from '../components/Head/Header'
-import { useState ,useEffect } from 'react'
+import { signIn } from "next-auth/client"
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import axios from 'axios'
-import { hash } from 'bcryptjs'
 
 export default function Signup() {
     const [names , setNames] = useState('')
@@ -15,25 +13,37 @@ export default function Signup() {
     const [passwordConfirm , setPasswordConfim] = useState('')
     const [hasError , setHasError] = useState(false)
     const [errorMessage , setErrorMessage] = useState('')
-    const [successMessage , setSuccessMessage] = useState('')
+    const [isLoading , setIsLoading] = useState(false)
+    const router = useRouter();
 
     const submitData = async(e) =>{
         e.preventDefault()
+        e.stopPropagation();
+        setIsLoading(true)
         try {
-            const body = { names, email, password , passwordConfirm };
             const response = await axios.post('/api/users/signup',{
                 names:names,
                 email:email,
                 passwordConfirm:passwordConfirm,
                 password:password
             })
+            if(response.data.status == 200){
+              signIn("credentials",{
+                email,
+                password,
+                callbackUrl:`${window.location.origin}/transactions`,
+                redirect:false
+              }).then(function(result){
+                  router.push(result.url);
+              })
+            }
         } catch (error) {
           if(error.response.status !==200){
             let errorMessage = error.response.data.message
+            setIsLoading(false)
             setHasError(true)
             setErrorMessage(errorMessage)
           }
-        console.log(error.response)
         }
         
     }

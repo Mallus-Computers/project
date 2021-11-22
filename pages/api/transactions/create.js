@@ -1,0 +1,59 @@
+import { useSession } from "next-auth/client";
+import prisma from "../../../lib/prisma";
+const CC = require('currency-converter-lt')
+
+export default async (req, res) =>{
+    const { receiver , amountToSend , fromCurrency,toCurrency ,authenticatedUser } = req.body
+    if(!receiver || !amountToSend ||!fromCurrency || !toCurrency){
+        res.status(400).json({
+            "message":"Please Fill All Fields"
+        })
+        return;
+    }
+    if(amountToSend < 10){
+        res.status(400).json({
+            "message":"Minimum amount to send is 10"
+        })
+        return;
+    }
+    const accountToChargeMoney = await prisma.account.findFirst({
+        where:{
+            userId:authenticatedUser.id,
+            AND:{
+                currency:fromCurrency
+            }
+        },
+        select:{
+            amount:true
+        }
+    }) 
+    if(accountToChargeMoney.amount < amountToSend){
+        res.status(400).json({
+            "message":`your ${fromCurrency} amount is only ${accountToChargeMoney.amount}`
+        })
+        return;
+    }
+    let currencyConverter = new CC({from:fromCurrency , to:toCurrency , amount:parseFloat(amountToSend)});
+    let convertedAmount = await currencyConverter.convert()
+    const createQuery = await prisma.transaction.create({
+        data:{
+            from:authenticatedUser.names,
+            to:receiver,
+            amount:convertedAmount,
+            currency:toCurrency
+        }
+    })
+    const updatedAmount = accountToChargeMoney.amount - amountToSend
+    const updateQuery = await prisma.account.updateMany({
+        where:{
+            userId:authenticatedUser.id,
+            AND:{
+                currency:fromCurrency
+            }
+        },
+        data:{
+            amount:updatedAmount
+        }
+    }) 
+    res.status(200).send({message:"Done"})
+}

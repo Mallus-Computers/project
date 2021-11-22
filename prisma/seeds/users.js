@@ -16,17 +16,6 @@ const bcryptPassword = async(unhashedPassword) =>{
             }
         }
     },
-    {
-        names:"Ntwali Heritier",
-        email:"heritier@gmail.com",
-        password:bcryptPassword("heritier12345"),
-        account :{
-            create:{
-                currency:'USD',
-                amount:1000
-            }
-        }
-    }
 ]
 
 module.exports = initialUsers

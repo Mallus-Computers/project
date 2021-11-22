@@ -22,10 +22,13 @@ const configuration = {
                 const user = await prisma.user.findFirst({
                     where: {
                         email: credentials.email,
-                        password: credentials.password
                     }
                 });
                 if(user !==null){
+                    const checkUserPassword = await bcrypt.compare(credentials.password , user.password)
+                    if(!checkUserPassword){
+                        throw new Error("Invalid password");
+                    }
                     userAccount = user;
                     return user;
                 }else{

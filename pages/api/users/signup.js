@@ -29,12 +29,25 @@ export default async (req,res)=>{
                 data:{
                     names:names,
                     email:email,
-                    password: await bcrypt.hash(password , 8)
+                    password: await bcrypt.hash(password , 8),
+                    accounts :{
+                        create:[{
+                            amount:1000,
+                            currency:"USD"
+                        },{
+                            amount:0,
+                            currency:"NGN"
+                        },{
+                            amount:0,
+                            currency:"EUR" 
+                        }],
+                    },
                 }
             })
             if(newUser){
-                res.status(200).json({  message: "Registration done Successfully" });
+                res.status(200).json({ status: 200, message: "User Created successfully" });
             }
+            
         } catch (error) {
             res.status(500).json({
                 error:error

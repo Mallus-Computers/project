@@ -1,7 +1,7 @@
 import FormInput from '../components/Form/FormInput'
 import FormButton from '../components/Form/FormButton'
 import Header from '../components/Head/Header'
-import { signIn, signOut, useSession } from "next-auth/client"
+import { signIn } from "next-auth/client"
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
@@ -11,8 +11,7 @@ export default function Home() {
   const [password , setPassword] = useState('')
   const [hasError , setHasError] = useState(false)
   const [errorMessage , setErrorMessage] = useState('')
-
-
+  const [isLoading , setIsLoading] = useState(false)
   const router = useRouter();
 
   function hideMessage(){
@@ -22,6 +21,13 @@ export default function Home() {
   const handleSubmit = (e) =>{
     e.preventDefault();
     e.stopPropagation();
+    setIsLoading(true)
+    if(email.trim() === "" || password.trim() === ""){
+      setIsLoading(false)
+      setHasError(true)
+      setErrorMessage("Please provide all fields..");
+      return;
+    }
     signIn("credentials",{
       email,
       password,
@@ -32,11 +38,13 @@ export default function Home() {
             {
                 if (result.status === 401)
                 {
+                  setIsLoading(false)
                     setHasError(true)
-                    setErrorMessage("Your username/password combination was incorrect. Please try again");
+                    setErrorMessage("Invalid Credentials..");
                 }
                 else
                 {
+                   setIsLoading(false)
                     setHasError(true)
                     setErrorMessage(result.error);
                 }
@@ -86,9 +94,10 @@ export default function Home() {
                 />
 
                 <FormButton
-                buttonLabel="Sign In"
+                buttonLabel={isLoading ? "Please wait...":"Sign In"}
                 link="/register"
                 linkLabel="No Account Yet?"
+                isLoading = {isLoading}
                 />
 
                 </div>
