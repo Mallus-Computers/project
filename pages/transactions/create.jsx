@@ -11,6 +11,7 @@ import UserSelect from '../../components/Form/UserSelect';
 import FormInput from '../../components/Form/FormInput';
 import CurrencySelect from '../../components/Form/CurrencySelect';
 import FormButton from '../../components/Form/FormButton';
+import FormErrorMessage from '../../components/Form/FormErrorMessage'
 import Navbar from '../../components/Navbar/Navbar'
 
 
@@ -73,12 +74,17 @@ export const getServerSideProps = async(context)=> {
         const [toCurrency , setToCurrency] = useState('')
         const [hasError , setHasError] = useState(false)
         const [errorMessage , setErrorMessage] = useState('')
+        const [hasSuccess , setHasSuccess] = useState(false)
+        const [successMessage , setSuccessMessage] = useState('')
+        const [isLoading , setIsLoading] = useState(false)
         const [session , loading] = useSession()
         const currencies = ['USD','EUR','NGN']
+        const router = useRouter()
 
         const performTransaction = async(e) =>{
             e.preventDefault()
             e.stopPropagation();
+            setIsLoading(true)
             try {
                 const response = await axios.post('/api/transactions/create',{
                     receiver:receiver,
@@ -93,6 +99,7 @@ export const getServerSideProps = async(context)=> {
             } catch (error) {
               if(error.response.status !==200){
                 let errorMessage = error.response.data.message
+                setIsLoading(false)
                 setHasError(true)
                 setErrorMessage(errorMessage)
               }
@@ -118,14 +125,7 @@ export const getServerSideProps = async(context)=> {
                                 <span className="text-2xl font-bold mb-4">Money Transfer Application</span>
                                 {
                                     hasError &&
-                                    <div className="bg-red-500 mt-4 rounded-sm p-2">
-                                        <div className="flex justify-between">
-                                            <span className="text-center text-white font-semibold">
-                                                {errorMessage}
-                                            </span>
-                                            <svg onClick={hideMessage} className="w-5 h-5 cursor-pointer text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                                    </div>                
-                                    </div>
+                                    <FormErrorMessage hideMessage={hideMessage} errorMessage={errorMessage} />
                                 }
                                 <div className="mt-8">
                                    <UserSelect 
@@ -156,7 +156,7 @@ export const getServerSideProps = async(context)=> {
                                    />
 
                                     <FormButton
-                                     buttonLabel="Send Money"
+                                     buttonLabel={isLoading ? "Please wait...":"Send Money"}
                                     link="/transactions"
                                     linkLabel="my transactions"
                                     />

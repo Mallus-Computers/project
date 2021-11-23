@@ -53,7 +53,7 @@ export const getServerSideProps = async(context)=> {
 }
 
     /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-    export default function UsersSession({balances , transactions}) {
+    export default function MyTransactions({balances , transactions}) {
     const [session , loading] = useSession()
     if (!loading)
     {
@@ -66,7 +66,7 @@ export const getServerSideProps = async(context)=> {
                       <div className="grid grid-cols-1">
                            <Navbar session={session}/>
                           <div className="justify-between">
-                          <div className="w-screen h-screen xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
+                          <div className="w-full h-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
                                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
                                     <div className="rounded-t mb-0 px-4 py-3 border-0">
                                         <div className="flex justify-between">
@@ -96,42 +96,45 @@ export const getServerSideProps = async(context)=> {
                                         {
                                            transactions.length > 0 ?
                                            <table className="items-center bg-transparent w-full border-collapse ">
-                                        <thead>
-                                            <tr>
-                                                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                            From
-                                                    </th>
-                                                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                            Amount
-                                                    </th>
-                                                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                            Currency
-                                                    </th>
-                                                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                            Received Date
-                                                     </th>
-                                            </tr>
-                                        </thead>
-                                
-                                        <tbody>
-                                            <tr>
-                                            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                                                /argon/
-                                            </th>
-                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                                                4,569
-                                            </td>
-                                            <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                340
-                                            </td>
-                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                                                46,53%
-                                            </td>
-                                            </tr>
-
-                                        </tbody>
-                                
+                                            <thead>
+                                                <tr>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                From
+                                                        </th>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                Amount
+                                                        </th>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                Currency
+                                                        </th>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                Received Date
+                                                        </th>
+                                                </tr>
+                                            </thead>                                
+                                            <tbody>
+                                                {
+                                                    transactions.map(transaction =>{
+                                                        return(
+                                                            <tr key={transaction.id}>
+                                                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                                                                    {transaction.from}
+                                                                </th>
+                                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                                                                    <span className="text-green-400 font-extrabold">{transaction.amount}</span>
+                                                                </td>
+                                                                <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                                    {transaction.currency}
+                                                                </td>
+                                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                                    <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
+                                                                    {new Date(transaction.createdAt).toDateString()}
+                                                                </td>
+                                                             </tr>
+                                                        )
+                                                    })
+                                                }
+                                            </tbody>                                
                                         </table> :
                                             <div className="flex justify-center items-center">
                                                 <div className="bg-red-200 px-16 py-4 mb-4 rounded-md">
