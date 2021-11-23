@@ -16,8 +16,11 @@ async function main(){
                     amount:1000,
                     currency:"USD"
                 },{
-                    amount:850.78,
+                    amount:0,
                     currency:"NGN"
+                },{
+                  amount:0,
+                  currency:"EUR"
                 }],
             },
         },
