@@ -3,18 +3,24 @@ import bcrypt  from 'bcryptjs'
 
 export default async (req,res)=>{
     const { names , email , password , passwordConfirm } = req.body
+    //check empty fields
+
     if(!names || !email ||!password ||!passwordConfirm){
         res.status(400).json({
             "message":"Please Fill All Fields"
         })
         return;
     }
+    //check password confirmation
+
     if(password !== passwordConfirm){
         res.status(400).json({
             "message":"Password Confirmation does not match"
         })
         return;
     }
+
+    //check if email is hasn't ben used before
     const checkIfUserExists = await prisma.user.findFirst({
         where:{
             email:email
@@ -25,6 +31,7 @@ export default async (req,res)=>{
         return;
     }else{
         try {
+            // save new user and create initial account for him/her
             const newUser = await prisma.user.create({
                 data:{
                     names:names,
