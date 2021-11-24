@@ -1,6 +1,6 @@
 import React from 'react'
 import prisma from '../../lib/prisma';
-import { signOut , getSession , useSession } from 'next-auth/client';
+import { getSession , useSession } from 'next-auth/client';
 import Link from 'next/link';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";

@@ -1,9 +1,10 @@
 import {React , useState} from 'react'
 import { useSession } from 'next-auth/client'
 import prisma from '../../lib/prisma';
-import { signOut , getSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import axios from 'axios';
 import { useRouter } from 'next/router'
+import Link from 'next/link';
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Header from '../../components/Head/Header';
@@ -67,20 +68,17 @@ export const getServerSideProps = async(context)=> {
 }
 
     /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-    export default function CreateTransaction({balances , availableUsers}) {
+    export default function CreateTransaction({ availableUsers}) {
         const [receiver , setReceiver] = useState('')
         const [amount , setAmount] = useState('')
         const [fromCurrency , setFromCurrency] = useState('')
         const [toCurrency , setToCurrency] = useState('')
         const [hasError , setHasError] = useState(false)
         const [errorMessage , setErrorMessage] = useState('')
-        const [hasSuccess , setHasSuccess] = useState(false)
-        const [successMessage , setSuccessMessage] = useState('')
         const [isLoading , setIsLoading] = useState(false)
         const [session , loading] = useSession()
         const currencies = ['USD','EUR','NGN']
         const router = useRouter()
-
         const performTransaction = async(e) =>{
             e.preventDefault()
             e.stopPropagation();
@@ -120,8 +118,10 @@ export const getServerSideProps = async(context)=> {
                       <div className="grid grid-cols-1">
                          <Navbar session={session}/>
                           <div className="justify-between">
-                          <div className="justify-center items-center flex">
-                            <form onSubmit={performTransaction}  className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-12">
+                             <div className="justify-center items-center flex">
+                             {
+                                 availableUsers.length > 0 ?
+                                 <form onSubmit={performTransaction}  className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-12">
                                 <span className="text-2xl font-bold mb-4">Money Transfer Application</span>
                                 {
                                     hasError &&
@@ -163,7 +163,16 @@ export const getServerSideProps = async(context)=> {
 
 
                                 </div>
-                            </form>
+                            </form>:
+                            <>
+                               <div className="items-center mt-20 bg-red-300 p-4 rounded-md">
+                                   <span className="text-md text-red-600 font-bold">Dear {session.user.names} , There are no users to send money to!</span>
+                                <Link  href="/transactions">
+                                    <a className="text-md text-blue-500 hover:text-blue-900 font-bold"> return to my transactions</a>
+                                </Link>
+                              </div>
+                            </>
+                             }
                             </div>
                           </div>
                       </div>
