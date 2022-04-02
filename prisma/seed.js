@@ -10,7 +10,7 @@ async function main(){
       data: {
             names:'Emmanuel Amalu',
             email:'emallus009@gmail.com',
-            password: await bcrypt.hash("emallus12345" , 8),
+            password: await bcrypt.hash("lambert12345" , 8),
             accounts :{
                 create:[{
                     amount:1000,

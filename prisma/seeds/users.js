@@ -8,7 +8,7 @@ const bcryptPassword = async(unhashedPassword) =>{
     {
         names:"Emmanuel Amalu",
         email:"emallus009@gmail.com",
-        password: bcryptPassword("emallus12345"),
+        password: bcryptPassword("lambert12345"),
         account :{
             create:{
                 currency:'USD',
