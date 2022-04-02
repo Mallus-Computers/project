@@ -64,7 +64,7 @@ export default function Home() {
         <div className="grid grid-cols-1">
             <div className="justify-center items-center flex">
               <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-20">
-                <span className="text-2xl font-bold mb-4">Welcome To SIMBA Money-App</span>
+                <span className="text-2xl font-bold mb-4">Welcome To AMALU P2P-App</span>
                 {
                      hasError &&
                     <FormErrorMessage hideMessage={hideMessage} errorMessage={errorMessage} />

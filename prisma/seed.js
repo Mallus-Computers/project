@@ -8,9 +8,9 @@ const prisma = new PrismaClient()
 async function main(){
    await prisma.user.create({
       data: {
-            names:'Nsengimana Lambert',
-            email:'lambert@gmail.com',
-            password: await bcrypt.hash("lambert12345" , 8),
+            names:'Emmanuel Amalu',
+            email:'emallus009@gmail.com',
+            password: await bcrypt.hash("emallus12345" , 8),
             accounts :{
                 create:[{
                     amount:1000,

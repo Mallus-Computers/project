@@ -59,7 +59,7 @@ export default function Signup() {
             <div className="justify-center items-center flex">
               <form onSubmit={submitData} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-8">
                   
-                <span className="text-2xl font-bold mb-4">Signup To SIMBA Money-App</span>
+                <span className="text-2xl font-bold mb-4">REGISTER To AMALU-Money-App</span>
                  {
                      hasError &&
                      <FormErrorMessage hideMessage={hideMessage} errorMessage={errorMessage} />

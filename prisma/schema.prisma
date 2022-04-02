@@ -23,7 +23,7 @@ model Account {
   currency  Currency @default(USD)
   userId    String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   user      User     @relation(fields: [userId], references: [id])
 }
 
@@ -32,10 +32,10 @@ model Transaction {
   from      String
   to        String
   amount    Float
-  currency  Currency
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user  User     @relation(fields: [to], references: [id])
+  currency  Currency
+  user      User     @relation(fields: [to], references: [id])
 }
 
 enum Currency {

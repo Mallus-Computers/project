@@ -122,7 +122,7 @@ export const getServerSideProps = async(context)=> {
                              {
                                  availableUsers.length > 0 ?
                                  <form onSubmit={performTransaction}  className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-12">
-                                <span className="text-2xl font-bold mb-4">Money Transfer Application</span>
+                                <span className="text-2xl font-bold mb-4">AMALU Money Transfer Application</span>
                                 {
                                     hasError &&
                                     <FormErrorMessage hideMessage={hideMessage} errorMessage={errorMessage} />

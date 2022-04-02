@@ -6,9 +6,9 @@ const bcryptPassword = async(unhashedPassword) =>{
 
  const initialUsers = [
     {
-        names:"Nsengimana Lambert",
-        email:"lambert@gmail.com",
-        password: bcryptPassword("lambert12345"),
+        names:"Emmanuel Amalu",
+        email:"emallus009@gmail.com",
+        password: bcryptPassword("emallus12345"),
         account :{
             create:{
                 currency:'USD',

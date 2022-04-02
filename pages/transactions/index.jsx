@@ -71,14 +71,14 @@ export const getServerSideProps = async(context)=> {
                                     <div className="rounded-t mb-0 px-4 py-3 border-0">
                                         <div className="flex justify-between">
                                         <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                                            <h3 className="font-semibold text-base text-blueGray-700">My Transactions</h3>
+                                            <h3 className="font-semibold text-base text-blueGray-700">Transactions History</h3>
                                         </div>
                                         <div className="flex justify-end">
                                         {
                                             balances.map(balance=>{
                                                 return(
                                                 <div key={balance.id} className="mr-4">
-                                                    <h2>{balance.currency} balance: <b>{balance.amount}</b></h2>
+                                                    <h2>{balance.currency} Bal: <b>{balance.amount}</b></h2>
                                                 </div>
                                                 )
                                             })
@@ -139,7 +139,7 @@ export const getServerSideProps = async(context)=> {
                                             <div className="flex justify-center items-center">
                                                 <div className="bg-red-200 px-16 py-4 mb-4 rounded-md">
                                                     <span className="text-red-800 font-extrabold">
-                                                        Dear {session.user.names} You have received no money Yet
+                                                        Dear {session.user.names} You have no transaction history yet
                                                     </span>
                                                 </div>
                                             </div>
