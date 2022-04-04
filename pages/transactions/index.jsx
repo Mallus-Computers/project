@@ -134,7 +134,46 @@ export const getServerSideProps = async(context)=> {
                                                         )
                                                     })
                                                 }
-                                            </tbody>                                
+                                            </tbody> 
+                                            <thead>
+                                                <tr>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                To
+                                                        </th>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                Amount
+                                                        </th>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                Currency
+                                                        </th>
+                                                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                                Received Date
+                                                        </th>
+                                                </tr>
+                                            </thead>                                
+                                            <tbody>
+                                                {
+                                                    transactions.map(transaction =>{
+                                                        return(
+                                                            <tr key={transaction.id}>
+                                                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                                                                    {transaction.to}
+                                                                </th>
+                                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                                                                    <span className="text-green-400 font-extrabold">{transaction.amount}</span>
+                                                                </td>
+                                                                <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                                    {transaction.currency}
+                                                                </td>
+                                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                                    <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
+                                                                    {new Date(transaction.createdAt).toDateString()}
+                                                                </td>
+                                                             </tr>
+                                                        )
+                                                    })
+                                                }
+                                            </tbody>                                                               
                                         </table> :
                                             <div className="flex justify-center items-center">
                                                 <div className="bg-red-200 px-16 py-4 mb-4 rounded-md">
