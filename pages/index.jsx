@@ -5,6 +5,8 @@ import FormErrorMessage from '../components/Form/FormErrorMessage'
 import { signIn } from "next-auth/client"
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link';
 
 
 export default function Home() {
@@ -64,7 +66,7 @@ export default function Home() {
         <div className="grid grid-cols-1">
             <div className="justify-center items-center flex">
               <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-20">
-                <span className="text-2xl font-bold mb-4">Welcome To AMALU P2P-App</span>
+                <span className="text-2xl font-bold mb-4">AMALU Money Transfer app</span>
                 {
                      hasError &&
                     <FormErrorMessage hideMessage={hideMessage} errorMessage={errorMessage} />
@@ -99,6 +101,16 @@ export default function Home() {
             </div>
             </div>
     </div>
+    <footer className="flex p-3 bg-indigo-500 justify-between">
+      <p className="text-white ml-2 mt-2"><b>Amalu Emmanuel Chinedu [2017030180423]</b></p>
+      <p className="text-white ml-2 mt-2">Supervisor <b>Mr Mbah David</b></p>
+      <p className="text-white ml-2 mt-2">Powered by ESUT Computer Science Department 2022</p>
+      <Link href="https://portal.esut.edu.ng/">
+          <a className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
+            <Image src="/images/logo.png" className="rounded-full bg-transparent" width={35} height={20}/>
+          </a>
+      </Link>
+    </footer>
     </>
   )
 }

@@ -178,7 +178,7 @@ export const getServerSideProps = async(context)=> {
                                             <div className="flex justify-center items-center">
                                                 <div className="bg-red-200 px-16 py-4 mb-4 rounded-md">
                                                     <span className="text-red-800 font-extrabold">
-                                                        Dear {session.user.names} You have no transaction history yet
+                                                        Dear {session.user.names} You have receive no money yet
                                                     </span>
                                                 </div>
                                             </div>
